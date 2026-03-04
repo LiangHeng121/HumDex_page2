@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
-      base: '/',
+      // Set BASE_PATH for project pages, e.g. /your-repo-name/.
+      base: env.BASE_PATH || '/',
       server: {
         port: 3000,
         host: '0.0.0.0',
