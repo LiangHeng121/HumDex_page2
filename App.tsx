@@ -42,9 +42,8 @@ const App: React.FC = () => {
             </div>
             <div className="hidden md:flex space-x-1">
               {[
-                ['Abstract', '#abstract'],
+                ['Intro', '#intro'],
                 ['Method', '#method'],
-                ['Video', '#videos'],
                 ['Results', '#results'],
                 ['BibTeX', '#bibtex'],
               ].map(([name, href]) => (
@@ -98,20 +97,25 @@ const App: React.FC = () => {
       </section>
 
       <main>
-        <Section id="abstract" title="Abstract">
-          <p className="text-justify leading-relaxed text-gray-300">
-            This paper investigates humanoid whole-body dexterous manipulation,
-            where efficient collection of high-quality demonstrations remains a
-            central bottleneck. We introduce HumDex, a portable teleoperation
-            system that leverages IMU-based motion tracking for accurate
-            full-body tracking and a learning-based hand retargeting method for
-            smooth, natural dexterous control. Building on this system, we
-            propose a two-stage imitation learning framework: pre-train on
-            diverse human motion data, then fine-tune on robot data to bridge
-            embodiment gaps. Experiments show strong improvements in collection
-            efficiency, teleoperation success, downstream policy performance,
-            and generalization to unseen positions, objects, and backgrounds.
-          </p>
+        <Section id="intro" title="Intro">
+          <div className="space-y-6">
+            <div className="max-w-4xl mx-auto">
+              <VideoCarousel items={videoItems} />
+            </div>
+            <p className="text-justify leading-relaxed text-gray-300">
+              This paper investigates humanoid whole-body dexterous manipulation,
+              where efficient collection of high-quality demonstrations remains a
+              central bottleneck. We introduce HumDex, a portable teleoperation
+              system that leverages IMU-based motion tracking for accurate
+              full-body tracking and a learning-based hand retargeting method for
+              smooth, natural dexterous control. Building on this system, we
+              propose a two-stage imitation learning framework: pre-train on
+              diverse human motion data, then fine-tune on robot data to bridge
+              embodiment gaps. Experiments show strong improvements in collection
+              efficiency, teleoperation success, downstream policy performance,
+              and generalization to unseen positions, objects, and backgrounds.
+            </p>
+          </div>
         </Section>
 
         <Section id="method" title="Method Overview">
@@ -137,12 +141,6 @@ const App: React.FC = () => {
                 on robot demonstrations for embodiment-specific precision.
               </p>
             </article>
-          </div>
-        </Section>
-
-        <Section id="videos" title="Demo Video" fullWidth>
-          <div className="max-w-4xl mx-auto">
-            <VideoCarousel items={videoItems} />
           </div>
         </Section>
 
