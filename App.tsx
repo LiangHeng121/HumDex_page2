@@ -33,6 +33,7 @@ type GeneralizationVideoItem = {
   generalization: 'Position' | 'Object' | 'Scene';
   title: string;
   videoUrl: string;
+  rotateCCW?: boolean;
 };
 
 const INFERENCE_VIDEOS: ResultVideoItem[] = [
@@ -67,6 +68,7 @@ const GENERALIZATION_VIDEOS: GeneralizationVideoItem[] = [
     generalization: 'Object',
     title: 'Teleoperator - Object #1',
     videoUrl: 'videos/人类数据采集-物品泛化1.mp4',
+    rotateCCW: true,
   },
   {
     id: 3,
@@ -74,6 +76,7 @@ const GENERALIZATION_VIDEOS: GeneralizationVideoItem[] = [
     generalization: 'Scene',
     title: 'Teleoperator - Scene #1',
     videoUrl: 'videos/人类数据采集-背景泛化1.mp4',
+    rotateCCW: true,
   },
   {
     id: 4,
@@ -144,6 +147,7 @@ const GENERALIZATION_VIDEOS: GeneralizationVideoItem[] = [
     generalization: 'Scene',
     title: 'Teleoperator - Scene #3',
     videoUrl: 'videos/人类数据采集-背景泛化3.mp4',
+    rotateCCW: true,
   },
   {
     id: 14,
@@ -508,18 +512,22 @@ const App: React.FC = () => {
                         key={item.id}
                         className="relative bg-black/30 rounded-xl overflow-hidden border border-white/10"
                       >
-                        <video
-                          className="w-full aspect-video object-cover"
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          controls
-                          preload="metadata"
-                        >
-                          <source src={item.videoUrl} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
+                        <div className="w-full aspect-video overflow-hidden bg-black">
+                          <video
+                            className={`w-full h-full object-cover ${
+                              item.rotateCCW ? '-rotate-90 scale-[1.78] origin-center' : ''
+                            }`}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            controls
+                            preload="metadata"
+                          >
+                            <source src={item.videoUrl} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
                         <figcaption className="absolute top-2 left-2 text-xs font-semibold bg-black/60 px-2 py-1 rounded border border-white/20">
                           {item.actor} / {item.generalization}
                         </figcaption>
@@ -530,24 +538,6 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <figure className="bg-black/30 rounded-xl overflow-hidden border border-white/10">
-              <img src={asset('figs/teaser.png')} alt="Fig.1 The HumDex System" className="w-full h-auto" />
-              <figcaption className="p-4 text-sm text-gray-300 leading-relaxed">
-                <strong>Fig. 1: The HumDex System.</strong> Our portable teleoperation system enables efficient collection of high-quality dexterous manipulation data.
-              </figcaption>
-            </figure>
-            <figure className="bg-black/30 rounded-xl overflow-hidden border border-white/10">
-              <img src={asset('figs/method.jpg')} alt="Fig.2 System Overview" className="w-full h-auto" />
-              <figcaption className="p-4 text-sm text-gray-300 leading-relaxed">
-                <strong>Fig. 2: System Overview.</strong> Teleoperation and hand retargeting pipeline with imitation policy architecture.
-              </figcaption>
-            </figure>
-            <figure className="bg-black/30 rounded-xl overflow-hidden border border-white/10">
-              <img src={asset('figs/task.png')} alt="Fig.3 Evaluation Tasks" className="w-full h-auto" />
-              <figcaption className="p-4 text-sm text-gray-300 leading-relaxed">
-                <strong>Fig. 3: Evaluation Tasks and Generalization.</strong> Initial states and key steps in evaluated tasks under seen and unseen settings.
-              </figcaption>
-            </figure>
           </div>
         </Section>
 
