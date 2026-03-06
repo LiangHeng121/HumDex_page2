@@ -27,6 +27,14 @@ type ResultVideoItem = {
   featured?: boolean;
 };
 
+type GeneralizationVideoItem = {
+  id: number;
+  actor: 'Teleoperator' | 'Robot';
+  generalization: 'Position' | 'Object' | 'Scene';
+  title: string;
+  videoUrl: string;
+};
+
 const INFERENCE_VIDEOS: ResultVideoItem[] = [
   // Supports both local paths and full HTTPS URLs.
   { id: 1, title: 'Scan&Pack', videoUrl: 'videos/扫码-推理.hq2.mp4', featured: true },
@@ -45,8 +53,158 @@ const TELEOP_VIDEOS: ResultVideoItem[] = [
   { id: 5, title: 'Pick Bread Teleoperation', videoUrl: 'videos/抓面包-遥操-横.hq2.mp4' },
 ];
 
+const GENERALIZATION_VIDEOS: GeneralizationVideoItem[] = [
+  {
+    id: 1,
+    actor: 'Teleoperator',
+    generalization: 'Position',
+    title: 'Teleoperator - Position #1',
+    videoUrl: 'videos/人类数据采集-位置泛化1.mp4',
+  },
+  {
+    id: 2,
+    actor: 'Teleoperator',
+    generalization: 'Object',
+    title: 'Teleoperator - Object #1',
+    videoUrl: 'videos/人类数据采集-物品泛化1.mp4',
+  },
+  {
+    id: 3,
+    actor: 'Teleoperator',
+    generalization: 'Scene',
+    title: 'Teleoperator - Scene #1',
+    videoUrl: 'videos/人类数据采集-背景泛化1.mp4',
+  },
+  {
+    id: 4,
+    actor: 'Robot',
+    generalization: 'Position',
+    title: 'Robot - Position #1',
+    videoUrl: 'videos/抓面包-推理-位置泛化1.mp4',
+  },
+  {
+    id: 5,
+    actor: 'Robot',
+    generalization: 'Object',
+    title: 'Robot - Object #1',
+    videoUrl: 'videos/抓面包-推理-物品泛化1.mp4',
+  },
+  {
+    id: 6,
+    actor: 'Robot',
+    generalization: 'Scene',
+    title: 'Robot - Scene #1',
+    videoUrl: 'videos/抓面包-推理-背景泛化1.mp4',
+  },
+  {
+    id: 7,
+    actor: 'Teleoperator',
+    generalization: 'Position',
+    title: 'Teleoperator - Position #2',
+    videoUrl: 'videos/人类数据采集-位置泛化2.mp4',
+  },
+  {
+    id: 8,
+    actor: 'Teleoperator',
+    generalization: 'Position',
+    title: 'Teleoperator - Position #3',
+    videoUrl: 'videos/人类数据采集-位置泛化3.mp4',
+  },
+  {
+    id: 9,
+    actor: 'Teleoperator',
+    generalization: 'Position',
+    title: 'Teleoperator - Position #4',
+    videoUrl: 'videos/人类数据采集-位置泛化4.mp4',
+  },
+  {
+    id: 10,
+    actor: 'Teleoperator',
+    generalization: 'Object',
+    title: 'Teleoperator - Object #2',
+    videoUrl: 'videos/人类数据采集-物品泛化2.mp4',
+  },
+  {
+    id: 11,
+    actor: 'Teleoperator',
+    generalization: 'Object',
+    title: 'Teleoperator - Object #3',
+    videoUrl: 'videos/人类数据采集-物品泛化3.mp4',
+  },
+  {
+    id: 12,
+    actor: 'Teleoperator',
+    generalization: 'Scene',
+    title: 'Teleoperator - Scene #2',
+    videoUrl: 'videos/人类数据采集-背景泛化2.mp4',
+  },
+  {
+    id: 13,
+    actor: 'Teleoperator',
+    generalization: 'Scene',
+    title: 'Teleoperator - Scene #3',
+    videoUrl: 'videos/人类数据采集-背景泛化3.mp4',
+  },
+  {
+    id: 14,
+    actor: 'Robot',
+    generalization: 'Position',
+    title: 'Robot - Position #2',
+    videoUrl: 'videos/抓面包-推理-位置泛化2.mp4',
+  },
+  {
+    id: 15,
+    actor: 'Robot',
+    generalization: 'Position',
+    title: 'Robot - Position #3',
+    videoUrl: 'videos/抓面包-推理-位置泛化3.mp4',
+  },
+  {
+    id: 16,
+    actor: 'Robot',
+    generalization: 'Position',
+    title: 'Robot - Position #4',
+    videoUrl: 'videos/抓面包-推理-位置泛化4.mp4',
+  },
+  {
+    id: 17,
+    actor: 'Robot',
+    generalization: 'Object',
+    title: 'Robot - Object #2',
+    videoUrl: 'videos/抓面包-推理-物品泛化2.mp4',
+  },
+  {
+    id: 18,
+    actor: 'Robot',
+    generalization: 'Object',
+    title: 'Robot - Object #3',
+    videoUrl: 'videos/抓面包-推理-物品泛化3.mp4',
+  },
+  {
+    id: 19,
+    actor: 'Robot',
+    generalization: 'Scene',
+    title: 'Robot - Scene #2',
+    videoUrl: 'videos/抓面包-推理-背景泛化2.mp4',
+  },
+  {
+    id: 20,
+    actor: 'Robot',
+    generalization: 'Scene',
+    title: 'Robot - Scene #3',
+    videoUrl: 'videos/抓面包-推理-背景泛化3.mp4',
+  },
+];
+
 const App: React.FC = () => {
   const teleopScrollRef = React.useRef<HTMLDivElement>(null);
+  const [selectedActors, setSelectedActors] = React.useState<Array<'Teleoperator' | 'Robot'>>([
+    'Teleoperator',
+    'Robot',
+  ]);
+  const [selectedGeneralizations, setSelectedGeneralizations] = React.useState<
+    Array<'Position' | 'Object' | 'Scene'>
+  >(['Position', 'Object', 'Scene']);
   const asset = (path: string) => `${import.meta.env.BASE_URL}${encodeURI(path)}`;
   const resolveVideoUrl = (url: string) =>
     /^https?:\/\//i.test(url) ? url : asset(url);
@@ -62,6 +220,25 @@ const App: React.FC = () => {
     ...item,
     videoUrl: resolveVideoUrl(item.videoUrl),
   }));
+  const generalizationVideos = GENERALIZATION_VIDEOS.map((item) => ({
+    ...item,
+    videoUrl: resolveVideoUrl(item.videoUrl),
+  }));
+  const toggleActor = (actor: 'Teleoperator' | 'Robot') => {
+    setSelectedActors((prev) =>
+      prev.includes(actor) ? prev.filter((x) => x !== actor) : [...prev, actor],
+    );
+  };
+  const toggleGeneralization = (kind: 'Position' | 'Object' | 'Scene') => {
+    setSelectedGeneralizations((prev) =>
+      prev.includes(kind) ? prev.filter((x) => x !== kind) : [...prev, kind],
+    );
+  };
+  const filteredGeneralizationVideos = generalizationVideos.filter(
+    (item) =>
+      selectedActors.includes(item.actor) &&
+      selectedGeneralizations.includes(item.generalization),
+  );
   const scrollTeleop = (direction: 'left' | 'right') => {
     const node = teleopScrollRef.current;
     if (!node) return;
@@ -274,6 +451,82 @@ const App: React.FC = () => {
                     </figcaption>
                   </figure>
                 ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-bold mb-4">Bread Generalization (Egocentric View)</h3>
+              <div className="space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  {(['Teleoperator', 'Robot'] as const).map((actor) => {
+                    const active = selectedActors.includes(actor);
+                    return (
+                      <button
+                        key={actor}
+                        type="button"
+                        onClick={() => toggleActor(actor)}
+                        className={`px-4 py-2 rounded-full border text-sm transition-colors ${
+                          active
+                            ? 'bg-cyan-400/20 border-cyan-300/50 text-cyan-100'
+                            : 'bg-black/30 border-white/20 text-gray-300 hover:bg-black/50'
+                        }`}
+                      >
+                        {actor}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {(['Position', 'Object', 'Scene'] as const).map((kind) => {
+                    const active = selectedGeneralizations.includes(kind);
+                    return (
+                      <button
+                        key={kind}
+                        type="button"
+                        onClick={() => toggleGeneralization(kind)}
+                        className={`px-4 py-2 rounded-full border text-sm transition-colors ${
+                          active
+                            ? 'bg-purple-400/20 border-purple-300/50 text-purple-100'
+                            : 'bg-black/30 border-white/20 text-gray-300 hover:bg-black/50'
+                        }`}
+                      >
+                        {kind} Generalization
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {filteredGeneralizationVideos.length === 0 ? (
+                  <p className="text-sm text-gray-400">
+                    No video selected. Please choose at least one actor and one
+                    generalization type.
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    {filteredGeneralizationVideos.map((item) => (
+                      <figure
+                        key={item.id}
+                        className="relative bg-black/30 rounded-xl overflow-hidden border border-white/10"
+                      >
+                        <video
+                          className="w-full aspect-video object-cover"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          controls
+                          preload="metadata"
+                        >
+                          <source src={item.videoUrl} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                        <figcaption className="absolute top-2 left-2 text-xs font-semibold bg-black/60 px-2 py-1 rounded border border-white/20">
+                          {item.actor} / {item.generalization}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
