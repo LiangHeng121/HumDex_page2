@@ -521,9 +521,12 @@ const App: React.FC = () => {
                       >
                         <div className="w-full aspect-video overflow-hidden bg-black">
                           <video
-                            className={`w-full h-full object-cover ${
-                              item.rotateCCW ? '-rotate-90 scale-[1.78] origin-center' : ''
-                            }`}
+                            className="w-full h-full object-cover"
+                            style={
+                              item.rotateCCW
+                                ? { transform: 'rotate(-90deg) scale(1.78)', transformOrigin: 'center' }
+                                : undefined
+                            }
                             autoPlay
                             muted
                             loop
