@@ -255,7 +255,7 @@ const App: React.FC = () => {
                 {teleopVideos.map((item) => (
                   <figure
                     key={item.id}
-                    className="relative shrink-0 w-[min(92vw,900px)] snap-start bg-black/30 rounded-xl overflow-hidden border border-white/10"
+                    className="relative shrink-0 w-[min(82vw,680px)] snap-start bg-black/30 rounded-xl overflow-hidden border border-white/10"
                   >
                     <video
                       className="w-full h-auto"
