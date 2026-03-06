@@ -243,6 +243,11 @@ const App: React.FC = () => {
       selectedActors.includes(item.actor) &&
       selectedGeneralizations.includes(item.generalization),
   );
+  const ensureAutoplay: React.ReactEventHandler<HTMLVideoElement> = (event) => {
+    event.currentTarget.play().catch(() => {
+      // Ignore autoplay rejections from browser policy.
+    });
+  };
   const scrollTeleop = (direction: 'left' | 'right') => {
     const node = teleopScrollRef.current;
     if (!node) return;
@@ -394,7 +399,8 @@ const App: React.FC = () => {
                       loop
                       playsInline
                       controls
-                      preload="metadata"
+                      preload="auto"
+                      onCanPlay={ensureAutoplay}
                     >
                       <source src={item.videoUrl} type="video/mp4" />
                       Your browser does not support the video tag.
@@ -445,7 +451,8 @@ const App: React.FC = () => {
                       loop
                       playsInline
                       controls
-                      preload="metadata"
+                      preload="auto"
+                      onCanPlay={ensureAutoplay}
                     >
                       <source src={item.videoUrl} type="video/mp4" />
                       Your browser does not support the video tag.
@@ -522,7 +529,8 @@ const App: React.FC = () => {
                             loop
                             playsInline
                             controls
-                            preload="metadata"
+                            preload="auto"
+                            onCanPlay={ensureAutoplay}
                           >
                             <source src={item.videoUrl} type="video/mp4" />
                             Your browser does not support the video tag.
