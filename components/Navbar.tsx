@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-      { name: 'Abstract', href: '#abstract' },
+      { name: 'Intro', href: '#intro' },
       { name: 'Method', href: '#method' },
       { name: 'Results', href: '#results' },
   ];
@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
                 V
              </div>
              <a href="#hero" className="text-white text-xl font-bold tracking-tight hover:text-brand-cyan transition-colors">
-               Video2Act
+               HumDex
              </a>
           </div>
 
