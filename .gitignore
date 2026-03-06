@@ -26,3 +26,5 @@ dist-ssr
 # Local media assets (keep out of git history)
 public/videos/*.mp4
 !public/videos/.gitkeep
+!public/videos/demo.mp4
+!public/videos/*.hq2.mp4
