@@ -255,10 +255,10 @@ const App: React.FC = () => {
                 {teleopVideos.map((item) => (
                   <figure
                     key={item.id}
-                    className="relative shrink-0 w-[min(82vw,680px)] snap-start bg-black/30 rounded-xl overflow-hidden border border-white/10"
+                    className="relative shrink-0 w-[260px] sm:w-[280px] snap-start bg-black/30 rounded-xl overflow-hidden border border-white/10"
                   >
                     <video
-                      className="w-full h-auto"
+                      className="w-full aspect-video object-cover"
                       autoPlay
                       muted
                       loop
