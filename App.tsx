@@ -119,28 +119,33 @@ const App: React.FC = () => {
         </Section>
 
         <Section id="method" title="Method Overview">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <article className="bg-black/30 rounded-xl p-5 border border-white/10">
-              <h3 className="text-xl font-bold mb-3">IMU-Based Whole-Body Teleoperation</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                Portable motion tracking provides accurate full-body control
-                without heavy infrastructure or strict line-of-sight constraints.
-              </p>
-            </article>
-            <article className="bg-black/30 rounded-xl p-5 border border-white/10">
-              <h3 className="text-xl font-bold mb-3">Learning-Based Hand Retargeting</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                A lightweight model maps glove fingertip observations to 20-DoF
-                hand joints, producing smooth dexterous motions without manual tuning.
-              </p>
-            </article>
-            <article className="bg-black/30 rounded-xl p-5 border border-white/10">
-              <h3 className="text-xl font-bold mb-3">Two-Stage Imitation Learning</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                The policy is first trained on diverse human data, then fine-tuned
-                on robot demonstrations for embodiment-specific precision.
-              </p>
-            </article>
+          <div className="space-y-6">
+            <figure className="bg-black/30 rounded-xl overflow-hidden border border-white/10">
+              <img src={asset('figs/method.jpg')} alt="Method Overview" className="w-full h-auto" />
+            </figure>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <article className="bg-black/30 rounded-xl p-5 border border-white/10">
+                <h3 className="text-xl font-bold mb-3">IMU-Based Whole-Body Teleoperation</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Portable motion tracking provides accurate full-body control
+                  without heavy infrastructure or strict line-of-sight constraints.
+                </p>
+              </article>
+              <article className="bg-black/30 rounded-xl p-5 border border-white/10">
+                <h3 className="text-xl font-bold mb-3">Learning-Based Hand Retargeting</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  A lightweight model maps glove fingertip observations to 20-DoF
+                  hand joints, producing smooth dexterous motions without manual tuning.
+                </p>
+              </article>
+              <article className="bg-black/30 rounded-xl p-5 border border-white/10">
+                <h3 className="text-xl font-bold mb-3">Two-Stage Imitation Learning</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  The policy is first trained on diverse human data, then fine-tuned
+                  on robot demonstrations for embodiment-specific precision.
+                </p>
+              </article>
+            </div>
           </div>
         </Section>
 
@@ -153,7 +158,7 @@ const App: React.FC = () => {
               </figcaption>
             </figure>
             <figure className="bg-black/30 rounded-xl overflow-hidden border border-white/10">
-              <img src={asset('figs/method.png')} alt="Fig.2 System Overview" className="w-full h-auto" />
+              <img src={asset('figs/method.jpg')} alt="Fig.2 System Overview" className="w-full h-auto" />
               <figcaption className="p-4 text-sm text-gray-300 leading-relaxed">
                 <strong>Fig. 2: System Overview.</strong> Teleoperation and hand retargeting pipeline with imitation policy architecture.
               </figcaption>
