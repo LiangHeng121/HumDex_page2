@@ -20,12 +20,57 @@ const DEMO_VIDEOS: CarouselItem[] = [
   },
 ];
 
+type ResultVideoItem = {
+  id: number;
+  title: string;
+  videoUrl: string;
+  featured?: boolean;
+};
+
+const INFERENCE_VIDEOS: ResultVideoItem[] = [
+  // Supports both local paths and full HTTPS URLs.
+  { id: 1, title: 'Scan&Pack', videoUrl: 'videos/扫码-推理.hq2.mp4', featured: true },
+  { id: 2, title: 'Hang Towel', videoUrl: 'videos/挂毛巾-推理.hq2.mp4' },
+  { id: 3, title: 'Open Door', videoUrl: 'videos/开门-推理.hq2.mp4' },
+  { id: 4, title: 'Place Basket', videoUrl: 'videos/提篮子-推理.hq2.mp4' },
+  { id: 5, title: 'Pick Bread', videoUrl: 'videos/抓面包-推理-横.hq2.mp4' },
+];
+
+const TELEOP_VIDEOS: ResultVideoItem[] = [
+  // Supports both local paths and full HTTPS URLs.
+  { id: 1, title: 'Scan&Pack Teleoperation', videoUrl: 'videos/扫码-遥操-横.hq2.mp4' },
+  { id: 2, title: 'Hang Towel Teleoperation', videoUrl: 'videos/挂毛巾-遥操-横.hq2.mp4' },
+  { id: 3, title: 'Open Door Teleoperation', videoUrl: 'videos/开门-遥操.hq2.mp4' },
+  { id: 4, title: 'Place Basket Teleoperation', videoUrl: 'videos/提篮子-遥操-横.hq2.mp4' },
+  { id: 5, title: 'Pick Bread Teleoperation', videoUrl: 'videos/抓面包-遥操-横.hq2.mp4' },
+];
+
 const App: React.FC = () => {
-  const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+  const teleopScrollRef = React.useRef<HTMLDivElement>(null);
+  const asset = (path: string) => `${import.meta.env.BASE_URL}${encodeURI(path)}`;
+  const resolveVideoUrl = (url: string) =>
+    /^https?:\/\//i.test(url) ? url : asset(url);
   const videoItems = DEMO_VIDEOS.map((item) => ({
     ...item,
-    videoUrl: item.videoUrl ? asset(item.videoUrl) : undefined,
+    videoUrl: item.videoUrl ? resolveVideoUrl(item.videoUrl) : undefined,
   }));
+  const inferenceVideos = INFERENCE_VIDEOS.map((item) => ({
+    ...item,
+    videoUrl: resolveVideoUrl(item.videoUrl),
+  }));
+  const teleopVideos = TELEOP_VIDEOS.map((item) => ({
+    ...item,
+    videoUrl: resolveVideoUrl(item.videoUrl),
+  }));
+  const scrollTeleop = (direction: 'left' | 'right') => {
+    const node = teleopScrollRef.current;
+    if (!node) return;
+    const offset = Math.round(node.clientWidth * 0.85);
+    node.scrollBy({
+      left: direction === 'left' ? -offset : offset,
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <div className="min-h-screen bg-brand-dark selection:bg-brand-cyan selection:text-brand-dark font-sans text-gray-100">
@@ -151,6 +196,87 @@ const App: React.FC = () => {
 
         <Section id="results" title="Results" fullWidth>
           <div className="space-y-6">
+            <div>
+              <h3 className="text-2xl font-bold mb-4">Autonomous Inference</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:auto-rows-[200px]">
+                {inferenceVideos.map((item) => (
+                  <figure
+                    key={item.id}
+                    className={`relative bg-black/30 rounded-xl overflow-hidden border border-white/10 ${
+                      item.featured ? 'md:col-span-2 md:row-span-2 md:col-start-2 md:row-start-1' : ''
+                    }`}
+                  >
+                    <video
+                      className="w-full h-full object-cover"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      preload="metadata"
+                    >
+                      <source src={item.videoUrl} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    <figcaption className="absolute top-2 left-2 text-sm font-semibold bg-black/60 px-3 py-1 rounded-md border border-white/20">
+                      {item.title}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <h3 className="text-2xl font-bold">Teleoperation</h3>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label="Scroll left"
+                    onClick={() => scrollTeleop('left')}
+                    className="h-9 w-9 rounded-full border border-white/20 bg-black/40 hover:bg-black/60 transition-colors"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Scroll right"
+                    onClick={() => scrollTeleop('right')}
+                    className="h-9 w-9 rounded-full border border-white/20 bg-black/40 hover:bg-black/60 transition-colors"
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
+              <div
+                ref={teleopScrollRef}
+                className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory"
+              >
+                {teleopVideos.map((item) => (
+                  <figure
+                    key={item.id}
+                    className="relative shrink-0 w-[min(92vw,900px)] snap-start bg-black/30 rounded-xl overflow-hidden border border-white/10"
+                  >
+                    <video
+                      className="w-full h-auto"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      preload="metadata"
+                    >
+                      <source src={item.videoUrl} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    <figcaption className="absolute top-2 left-2 text-sm font-semibold bg-black/60 px-3 py-1 rounded-md border border-white/20">
+                      {item.title}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+
             <figure className="bg-black/30 rounded-xl overflow-hidden border border-white/10">
               <img src={asset('figs/teaser.png')} alt="Fig.1 The HumDex System" className="w-full h-auto" />
               <figcaption className="p-4 text-sm text-gray-300 leading-relaxed">

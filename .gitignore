@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local media assets (keep out of git history)
+public/videos/*.mp4
+!public/videos/.gitkeep
